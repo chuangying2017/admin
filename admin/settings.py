@@ -32,6 +32,8 @@ AUTHENTICATION_BACKENDS = (
     'home.views.CustomBackend',
 )
 
+AUTH_USER_MODEL = "home.UserProfile"
+
 
 # Application definition
 
