@@ -1,0 +1,66 @@
+{% extends 'admin/common/base.html' %}
+
+
+{% block title %}
+    <title>后台登录</title>
+{% endblock %}
+
+
+{% block css_append %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'xadmin/css/login.css' %}">
+{% endblock %}
+
+{% block body %}
+<body class="login-bg">
+    {% csrf_token %}
+    <div class="login layui-anim layui-anim-up">
+        <div class="message">管理登录</div>
+        <div id="darkbannerwrap"></div>
+
+        <form method="post" class="layui-form" >
+
+            <input name="username" placeholder="用户名"  type="text" lay-verify="required" class="layui-input" >
+            <hr class="hr15">
+            <input name="password" lay-verify="required" placeholder="密码"  type="password" class="layui-input">
+            <hr class="hr15">
+            <input value="登录" lay-submit lay-filter="login" style="width:100%;" type="submit">
+            <hr class="hr20" >
+        </form>
+    </div>
+
+    <script>
+        $(function  () {
+            layui.use('form', function(){
+              var form = layui.form;
+              // layer.msg('玩命卖萌中', function(){
+              //   //关闭后的操作
+              //   });
+              //监听提交
+              form.on('submit(login)', function(data){
+                  var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+                  console.log(JSON.stringify(data.field))
+                // alert(888)
+                  $.ajax({
+                     url: "{% url 'admin.login' %}",
+                     type: "post",
+                     data: data.field,
+                      dataType: "json",
+                      beforeSend: function (XMLHttpRequest) {
+                XMLHttpRequest.setRequestHeader("X-CSRFToken", csrftoken);
+             },
+                      success: function (data) {
+                          console.log(data)
+                      }
+                  });
+            {% comment %}    layer.msg(JSON.stringify(data.field),function(){
+                    location.href='index.html'
+                });{% endcomment %}
+                return false;
+              });
+            });
+        })
+    </script>
+    <!-- 底部结束 -->
+</body>
+{% endblock %}
