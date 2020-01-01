@@ -40,9 +40,7 @@ class UserVerify(View):
         if val_verify.is_valid():
             user_name = request.POST.get('username', '')
             pass_word = request.POST.get('password', '')
-
             result = authenticate(username=user_name, password=pass_word)
-
             if result is None:
                 res = {
                     "error_msg": "账号或密码错误"
@@ -59,7 +57,6 @@ class UserVerify(View):
                         "error_msg": "用户未激活"
                     }
         else:
-            print(val_verify.errors.as_data())
             err_str = ""
             for k, v in val_verify.errors.as_data().items():
                 err_str = k + ": " + str(v[0].message)

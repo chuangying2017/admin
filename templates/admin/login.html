@@ -50,7 +50,14 @@
                 XMLHttpRequest.setRequestHeader("X-CSRFToken", csrftoken);
              },
                       success: function (data) {
-                          console.log(data)
+                          if (data.code == "0")
+                          {
+                              layer.msg("登录成功", function () {
+                                  location.href = '{% url "admin.index" %}'
+                              })
+                          }else{
+                              layer.msg(data.error_msg)
+                          }
                       }
                   });
             {% comment %}    layer.msg(JSON.stringify(data.field),function(){
